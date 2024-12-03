@@ -1,0 +1,32 @@
+
+<!-- This file launches drone driver and visual servoing nodelets
+You have can then make the drone take off or land by publishing corresponding messages :
+
+"rostopic pub -\-once /bebop/takeoff std_msgs/Empty" for takeoff
+"rostopic pub -\-once /bebop/land std_msgs/Empty" for landing
+(without "\")
+-->
+
+<launch>
+  <arg name="namespace_bebop" default="bebop" />
+  <arg name="ip" default="192.168.42.1" />
+  <arg name="output" default="$(find bebop_calibrate)/output/" />
+  <arg name="wait" default="1." />
+  <arg name="n_captures" default="1" />
+
+  <!-- ArUco detection -->
+  <group ns="demo">
+    <param name="output" value="$(arg output)"/>
+    <param name="wait" value="$(arg wait)"/>
+    <param name="n_captures" value="$(arg n_captures)"/>
+<!--     <rosparam command="load" file="$(find bebop_calibrate)/config/IBVS.yaml"/> -->
+    <node pkg="bebop_calibrate"
+          name="bebop_calibrate"
+          type="bebop_calibrate_node"
+          output="screen"
+          required="true">
+      <remap from="image_raw" to="/$(arg namespace_bebop)/image_raw"/>
+    </node>
+  </group>
+
+</launch>

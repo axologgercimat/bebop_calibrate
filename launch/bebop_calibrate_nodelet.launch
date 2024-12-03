@@ -1,0 +1,34 @@
+<launch>
+  <arg name="namespace_bebop" default="bebop" />
+  <arg name="ip" default="192.168.42.1" />
+  <arg name="output" default="$(find bebop_calibrate)/output/" />
+  <arg name="wait" default="1." />
+  <arg name="n_captures" default="1" />
+  <!-- Parameters for the drone -->
+  <param name="/$(arg namespace_bebop)/bebop_nodelet/SpeedSettingsOutdoorOutdoor" type="int" value="0"/>
+  <param name="/$(arg namespace_bebop)/bebop_nodelet/PictureSettingsVideoResolutionsType" type="int" value="0"/>
+  <param name="/$(arg namespace_bebop)/bebop_nodelet/PictureSettingsVideoStabilizationModeMode" type="int" value="3"/>
+
+  <!-- Nodelet launch file from bebop_driver -->
+  <include file="$(find bebop_driver)/launch/bebop_nodelet.launch">
+    <arg name="namespace" value="$(arg namespace_bebop)" />
+    <arg name="ip" value="$(arg ip)" />
+    <arg name="drone_type" default="bebop2" />
+  </include>
+
+
+  <!-- ArUco detection -->
+  <group ns="demo">
+    <param name="output" value="$(arg output)"/>
+    <param name="wait" value="$(arg wait)"/>
+    <param name="n_captures" value="$(arg n_captures)"/>
+<!--     <rosparam command="load" file="$(find bebop_calibrate)/config/params.yaml"/> -->
+    <node pkg="nodelet"
+          type="nodelet"
+          name="bebop_calibrate_nodelet"
+          args="load bebop_calibrate_nodelet /$(arg namespace_bebop)/bebop_nodelet_manager">
+      <remap from="image_raw" to="/$(arg namespace_bebop)/image_raw"/>
+    </node>
+  </group>
+
+</launch>
