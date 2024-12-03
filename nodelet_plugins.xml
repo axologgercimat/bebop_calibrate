@@ -1,5 +1,5 @@
-<library path="lib/libbebop_aruco_detect_nodelet">
-  <class name="bebop_aruco_detect_nodelet" type="bebopVSNodelet" base_class_type="nodelet::Nodelet">
-    <description>Nodelet implementation of aruco detection node.</description>
+<library path="lib/libbebop_calibrate_nodelet">
+  <class name="bebop_calibrate_nodelet" type="bebopVSNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet.</description>
   </class>
 </library>
