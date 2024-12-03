@@ -77,7 +77,23 @@ cd ~/catkin_ws/src
 git clone git@github.com:cimat-ris/bebop_calibrate.git
 cd ~/catkin_ws
 catkin build bebop_calibrate
+mkdir src/bebop_calibrate/output
 ```
+
+#   Funcionamiento
+
+*Son necesarias por lo menots 15 capturas del chessboard.*
+
+Para usar, correr el programa con los siguientes parámteros:
++ IP = IP del dron (def = 192.168.42.1)
++ wait = tiempo de espera entre capturas (def = 1.)
++ n_captures = cantidad de imágenes a guardar (def= 1)
+
+Después solo correr como en el ejemplo.
+Se recomenda usar rqt_image_view para ver las tomas en tiempo real.
+La salida va indicando el momento cuando toma las capturas.
+Una vez terminada la cuenta, finalizar con `ctrl + c`
+Al final es encesario correr el programa `calibrate.py` que crea el archivo `intrinsics.yaml` con la matriz de intrínsecos.
 
 #   TESTING
 
@@ -86,7 +102,11 @@ Para terminar cualquier programa: `ctrl + c`
 ```bash
 # @ bebop_ws
 # Screen 1
-roslaunch bebop_calibrate bebop_calibrate_nodelet.launch ip:=192.168.45.1
+roslaunch bebop_calibrate bebop_calibrate_nodelet.launch \
+ip:=192.168.45.1 \
+wait:=5 \
+n_captures:=20
+
 # Screen 2
 rosrun rqt_image_view rqt_image_view
 
